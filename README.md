@@ -116,7 +116,7 @@ a legitmate mail server for that domain.
 
 ## Firewalling
 
-This modules does not provision a firewall. You will want to set one up with
+This module does not provision a firewall. You will want to set one up with
 the following ports:
 
 | Port | Allow From   | Used by                                       |
@@ -150,11 +150,10 @@ nowhere else.
 
 ## SSL/TLS
 
-This module only configures an SSL/TLS secured mail server. This is because we
-don't want to risk anyone running an unencrypted server solution across the
-public web.
-
-Certs are automatically requested and provisioned using LetsEncrypt.
+This module only configures an SSL/TLS secured mail server and cannot be
+disabled. This is because we don't want to risk anyone accessing their email
+in an unencrypted form across the public web. To provide legitmate certs, we
+use LetsEncrypt.
 
 
 # Mail Filtering Rules
@@ -177,7 +176,7 @@ This module sets up Pigeonhole/Sieve, but does not manage the per-user rules.
 
 1. This modules assumes that your mail server is not also a webserver. If you are
    running a webserver on the same server, it will cause issues with the
-   LetsEncrypt/CertBot renewal process.
+   LetsEncrypt/CertBot renewal process by default. See `params.pp` for options.
 
 2. Whilst this module will setup a decent mail server, other factors like the
    type of mail you send and the reputational score of your IP address will

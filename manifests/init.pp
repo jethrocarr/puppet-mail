@@ -21,6 +21,7 @@ class mail (
   $security_trusted_networks = $::mail::params::security_trusted_networks,
   $security_certbot_email    = $::mail::params::security_certbot_email,
   $security_certbot_plugin   = $::mail::params::security_certbot_plugin,
+  $security_certbot_webroot  = $::mail::params::security_certbot_webroot,
   $security_cert_dir         = $::mail::params::security_cert_dir,
 ) inherits ::mail::params {
 

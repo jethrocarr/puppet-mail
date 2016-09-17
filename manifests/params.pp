@@ -28,6 +28,7 @@ class mail::params {
     default  => 'postfix',
   }
 
+
   # Define the mail server name and attributes
   $server_hostname = $::fqdn
   $server_domain   = $::domain
@@ -95,13 +96,24 @@ class mail::params {
   $security_trusted_networks = []
 
   # We use LetsEncrypt (CertBot) for generating valid SSL/TLS certs for the
-  # mail server.
+  # mail server. By default we don't associate an email address with those
+  # certs, but in a production environment you may wish to consider doing so
+  # in order to get expiration and renewal information.
   $security_certbot_email  = undef
-  $security_certbot_plugin = 'standalone'
+
+  # Our mode for validating our server's identity involves starting and stopping
+  # a temporary server for validating with LetEncrypt. This will break if you
+  # are already running a webserver on the same machine. If so, recommend
+  # setting:
+  # 
+  #   security_certbot_plugin: 'webroot'
+  #   security_certbot_webroot: '/var/www/html/'
+  #
+  $security_certbot_plugin  = 'standalone'
+  $security_certbot_webroot = undef
 
   # Define where the cert files are being stored.
   $security_cert_dir    = '/etc/letsencrypt/live/'
-
 
 }
 

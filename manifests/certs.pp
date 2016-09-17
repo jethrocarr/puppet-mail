@@ -8,6 +8,7 @@
 class mail::certs (
   $security_certbot_plugin   = $::mail::security_certbot_plugin,
   $security_certbot_email    = $::mail::security_certbot_email,
+  $security_certbot_webroot  = $::mail::security_certbot_webroot,
   $server_hostname           = $::mail::server_hostname,
   $service_dovecot           = $::mail::service_dovecot,
   ) {
@@ -34,6 +35,10 @@ class mail::certs (
   # to be in place so that LetsEncrypt can establish a connection to validate.
 
   letsencrypt::certonly { 'mail':
+    # Provide option to change the type of plugin being used.
+    plugin        => $security_certbot_plugin,
+    webroot_paths => $security_certbot_webroot,
+
     # We don't need every domain we are hosting mail for defined in the cert,
     # just the FQDN of the server that is doing the mail serving.
     domains                => [$server_hostname],
