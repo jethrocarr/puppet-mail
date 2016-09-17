@@ -12,7 +12,7 @@ class mail::dnscheck (
   # important to make sure both forward and reverse DNS is functional in order
   # to generate certs, but also because RDNS is critical for mail acceptance.
 
-  if (!mailcheckdnsforwards([$server_hostname])) {
+  if (!mailcheckdnsforwards($server_hostname)) {
 
     # This is a hack, basically we want to fail this module in the Puppet run,
     # but not block anything else on the server. If we used the fail() function,
@@ -27,7 +27,7 @@ class mail::dnscheck (
       command => 'false'
     }
 
-    info { 'The forward DNS records for this system are incorrect which will block the mail server build steps until resolved': }
+    notify { 'The forward DNS records for this system are incorrect which will block the mail server build steps until resolved': }
   }
 
 }

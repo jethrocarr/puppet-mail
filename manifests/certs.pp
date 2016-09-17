@@ -38,10 +38,11 @@ class mail::certs (
     # just the FQDN of the server that is doing the mail serving.
     domains                => $server_hostname,
 
-    # Make sure we automatically renew certs before expiration via cronjob. We
-    # have to restart any services using the certs when this occurs.
+    # Make sure we automatically renew certs before expiration via cronjob.
     manage_cron            => true,
-    cron_success_command   => "service ${service_dovecot} restart",
+    
+    # We have to restart any services using the certs when this occurs.
+    #cron_success_command   => "service ${service_dovecot} restart",
   }
 
 
