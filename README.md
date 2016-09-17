@@ -65,9 +65,16 @@ To provision the mailserver, simply add the following to your own modules or
 
 Naturally you'll want to do some configuration of the mailserver. This is best
 done in Puppet Hiera. The following is an example of the minimum options you'd
-want to se:
+want to set:
 
-    TODO
+    mail::server_label: 'My awesome mail server'
+    mail::enable_antispam: true
+    mail::enable_graylisting: false
+    mail::virtual_domains:
+     - example.com
+    mail::virtual_addresses:
+      'nickname@example.com': 'user'
+      'user@example.com': 'user'
 
 Refer to `manifests/params.pp` for details on all the configuration options,
 their default params and more.
@@ -113,7 +120,7 @@ This modules does not provision a firewall. You will want to set one up with
 the following ports:
 
 | Port | Allow From   | Used by                                       |
-|------|--------------------------------------------------------------|
+|------|--------------|-----------------------------------------------|
 | 25   | Public       | Must be open to the world for receiving email |
 | 143  | Trusted Only | Dovecot for STARTTLS IMAP connections         |
 | 587  | Trusted Only | PostFix for authenticated email sending       |
