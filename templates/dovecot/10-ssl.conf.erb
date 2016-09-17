@@ -1,0 +1,8 @@
+# Managed by Puppet `mail` module.
+# Configure Dovecot to use the certs provisioned by LetsEncrypt for this server.
+
+ssl = required
+ssl_cert = <<%= @security_cert_dir -%>/<%= @server_hostname %>/cert.pem
+ssl_key = <<%= @security_cert_dir -%>/<%= @server_hostname %>/privkey.pem
+ssl_ca = <<%= @security_cert_dir -%>/<%= @server_hostname %>/chain.pem
+
