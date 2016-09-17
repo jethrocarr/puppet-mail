@@ -24,7 +24,7 @@ class mail::postfix (
 
   # If the user hasn't supplied any virtual domains, assume they intended to
   # supply the domain of this server itself.
-  if (empty($virtual_domains_tweaked)) {
+  if (empty($virtual_domains)) {
     $virtual_domains_tweaked = [ $server_domain ]
   } else {
     $virtual_domains_tweaked = $virtual_domains
