@@ -13,7 +13,21 @@ class mail::dnscheck (
   # to generate certs, but also because RDNS is critical for mail acceptance.
 
   if (!mailcheckdnsforwards([$server_hostname])) {
-    fail('The forward DNS for this system is incorrect which will block the Puppet run')
+
+    # This is a hack, basically we want to fail this module in the Puppet run,
+    # but not block anything else on the server. If we used the fail() function,
+    # it would disrupt the entire Puppet run, which might even involve creating
+    # config the box needs to properly set it's hostname. So what we do instead,
+    # is define an Exec that will always fail, thus failing this sub class, which
+    # will block all the other sub-classes as it's a core dependency in the mail
+    # module.
+
+    exec { 'fail':
+      path    => '/bin:/sbin:/usr/bin:/usr/sbin',
+      command => 'false'
+    }
+
+    info { 'The forward DNS records for this system are incorrect which will block the mail server build steps until resolved': }
   }
 
 }
