@@ -1,79 +1,125 @@
-# mail
+# puppet-mail
 
-#### Table of Contents
+# Overview
 
-1. [Overview](#overview)
-2. [Module Description - What the module does and why it is useful](#module-description)
-3. [Setup - The basics of getting started with mail](#setup)
-    * [What mail affects](#what-mail-affects)
-    * [Setup requirements](#setup-requirements)
-    * [Beginning with mail](#beginning-with-mail)
-4. [Usage - Configuration options and additional functionality](#usage)
-5. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
-5. [Limitations - OS compatibility, etc.](#limitations)
-6. [Development - Guide for contributing to the module](#development)
+Running your own mail server can be a powerful and rewarding freedom, but does
+tend to come with a number of challanges including just getting all the
+components to work properly together in the first place, not to mention the
+trickiness of security and spam filtering.
 
-## Overview
+This Puppet module will build a complete fully functioning mailserver designed
+for use by individuals as a personal mailserver.
 
-A one-maybe-two sentence summary of what the module does/what problem it solves.
-This is your 30 second elevator pitch for your module. Consider including
-OS/Puppet version it works with.
 
-## Module Description
+# Features
 
-If applicable, this section should have a brief description of the technology
-the module integrates with and what that integration enables. This section
-should answer the questions: "What does this module *do*?" and "Why would I use
-it?"
+* Uses Postfix as the MTA
+* Uses Dovecot for providing IMAP
+* Mandatory SSL/TLS configured services.
+* Filters spam using SpamAssassin
+* Provides Sieve for server-side email filtering rules.
 
-If your module has a range of functionality (installation, configuration,
-management, etc.) this is the time to mention it.
 
-## Setup
+# Requirements
 
-### What mail affects
+One of the following GNU/Linux distributions:
+* CentOS (7)
 
-* A list of files, packages, services, or operations that the module will alter,
-  impact, or execute on the system it's installed on.
-* This is a great place to stick any warnings.
-* Can be in list or paragraph form.
+Include the following Puppet module dependencies in your `Puppetfile` (if using
+recommended r10k workflow):
 
-### Setup Requirements **OPTIONAL**
+    mod 'puppetlabs/stdlib'
+    mod 'stahnma/epel'
+    mod 'danzilio/letsencrypt'
 
-If your module requires anything extra before setting up (pluginsync enabled,
-etc.), mention it here.
 
-### Beginning with mail
+# Usage
 
-The very basic steps needed for a user to get the module up and running.
+To provision the mailserver, simply add the following to your own modules or
+`site.pp` file:
 
-If your most recent release breaks compatibility or requires particular steps
-for upgrading, you may wish to include an additional section here: Upgrading
-(For an example, see http://forge.puppetlabs.com/puppetlabs/firewall).
+    class { 'mail': }
 
-## Usage
+Naturally you'll want to do some configuration of the mailserver. This is best
+done in Puppet Hiera. The following is an example of the minimum options you'd
+want to se:
 
-Put the classes, types, and resources for customizing, configuring, and doing
-the fancy stuff with your module here.
+    TODO
 
-## Reference
+Refer to `manifests/params.pp` for details on all the configuration options,
+their default params and more.
 
-Here, list the classes, types, providers, facts, etc contained in your module.
-This section should include all of the under-the-hood workings of your module so
-people know what the module is touching on their system but don't need to mess
-with things. (We are working on automating this section!)
 
-## Limitations
 
-This is where you list OS compatibility, version compatibility, etc.
 
-## Development
 
-Since your module is awesome, other users will want to play with it. Let them
-know what the ground rules for contributing are.
+# Security
 
-## Release Notes/Contributors/Etc **Optional**
+## Firewalling
 
-If you aren't using changelog, put your release notes here (though you should
-consider using changelog). You may also add any additional sections you feel are
-necessary or important to include here. Please use the `## ` header.
+TODO
+
+## User Management
+
+This module uses PAM for authenticating users, which means any system user with
+a shell will have their own mailbox. If you need a good module for setting up 
+these user accounts, please check out
+[puppet-virtual_user](https://github.com/jethrocarr/puppet-virtual_user) which
+makes it easy to define users whom will only exist on your mailserver and
+nowhere else.
+
+
+## SSL/TLS
+
+This module only configures an SSL/TLS secured mail server. This is because we
+don't want to risk anyone running an unencrypted server solution across the
+public web
+
+Certs are automatically requested and provisioned using LetsEncrypt.
+
+
+# Mail Filtering Rules
+
+This module sets up Dovecot with Pigeonhole/Sieve which allows users to define
+server-side mail filtering rules per-account by creating a file in
+`~/.dovecot.sieve`.
+
+The syntax is documented at http://wiki2.dovecot.org/Pigeonhole/Sieve
+
+After making a change, syntax can be validated by building the configuration file
+in the user's home directory with:
+
+    $ sievec .dovecot.sieve
+
+This module sets up Pigeonhole/Sieve, but does not manage the per-user rules.
+
+
+# Limitations
+
+This modules assumes that your mail server is not also a webserver. If you are
+running a webserver on the same server, it will cause issues with the
+LetsEncrypt/CertBot renewal process.
+
+
+# Contributions
+
+All contributions are welcome via Pull Requests including documentation fixes
+or compatability fixes for other distributions/operating systems.
+
+Note that this module is intentionally designed to be simple, PRs that make the
+module overly complex (eg alternative MTA, use of SQL DBs) may be declined in
+order to keep the module in line with the goal of supporting personal
+mailservers.
+
+
+# License
+
+This module is licensed under the Apache License, Version 2.0 (the "License").
+See the LICENSE or http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
