@@ -16,7 +16,9 @@
 
 service imap-login {
   inet_listener imap {
-    port = 0 # disable IMAP in favour of IMAPS
+    # We leave imap/143 enabled since we have configured Dovecot to mandate TLS
+    # which means it will upgrade to a secure connection over this port.
+    port = 143
   }
   inet_listener imaps {
     #port = 993
