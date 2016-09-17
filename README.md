@@ -109,7 +109,27 @@ a legitmate mail server for that domain.
 
 ## Firewalling
 
-TODO
+This modules does not provision a firewall. You will want to set one up with
+the following ports:
+
+| Port | Allow From   | Used by                                       |
+|------|--------------------------------------------------------------|
+| 25   | Public       | Must be open to the world for receiving email |
+| 143  | Trusted Only | Dovecot for STARTTLS IMAP connections         |
+| 587  | Trusted Only | PostFix for authenticated email sending       |
+| 993  | Trusted Only | Dovecot for SSL/TLS IMAPS connections         |
+
+Any ports marked `Trusted Only` should be locked down to IP ranges you trust.
+Whilst authentication is always required to read or send email, if you leave
+these ports open to the public web, you do run the risk of attackers trying to
+brute force your passwords and gain access.
+
+Port `25` is the exception, which *must* be open for the public web in order to
+actually recieve any emails.
+
+Recommended approaches include whitelisting IP ranges or using a VPN system
+like [puppet-roadwarrior](https://github.com/jethrocarr/puppet-roadwarrior).
+
 
 ## User Management
 
@@ -125,7 +145,7 @@ nowhere else.
 
 This module only configures an SSL/TLS secured mail server. This is because we
 don't want to risk anyone running an unencrypted server solution across the
-public web
+public web.
 
 Certs are automatically requested and provisioned using LetsEncrypt.
 
