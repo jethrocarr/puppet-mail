@@ -2,31 +2,39 @@
 
 # Overview
 
-Running your own mail server can be a powerful and rewarding freedom, but does
-tend to come with a number of challanges including just getting all the
-components to work properly together in the first place, not to mention the
-trickiness of security and spam filtering.
+Running your own mail server can be a powerful and rewarding experience, but it
+does tend to come with a number of challanges. Mail servers tend to have
+extremely complex configurations and it's easy to make a mistake that weakens
+security or allows spam through.
 
-This Puppet module will build a complete fully functioning mailserver designed
-for use by individuals as a personal mailserver.
+This Puppet module has been designed for hobbyists or small organisation mail
+server operators whom want an easy solution to build and manage a mail server
+that doesn't try to be too complex. If you're running an ISP with 30,000
+mailboxes, this probably isn't the module for you. But 5 users? Yourself only?
+Keep on reading!
 
 
 # Features
 
 * Uses Postfix as the MTA
 * Uses Dovecot for providing IMAP
-* Mandatory SSL/TLS configured services.
+* Enforces SSL/TLS and generates a legitimate cert automatically with
+  LetsEncrypt.
 * Filters spam using SpamAssassin
 * Provides Sieve for server-side email filtering rules.
+* Simple authentication against PAM for easy management of users.
+* Supports virtual email aliases and multiple domains
 
 
 # Requirements
 
-One of the following GNU/Linux distributions:
+Currently only the following distributions are supported - PRs adding support
+for other distributions are always welcome.
+
 * CentOS (7)
 
-Include the following Puppet module dependencies in your `Puppetfile` (if using
-recommended r10k workflow):
+You must include the following Puppet module dependencies - ideally in your
+`Puppetfile` if using an r10k workflow.
 
     mod 'puppetlabs/stdlib'
     mod 'stahnma/epel'
@@ -35,7 +43,9 @@ recommended r10k workflow):
       :branch => 'master'
 
 Note that the letsencrypt module needs to be the upstream Github version, the
-version on PuppetForge is too old.
+version on PuppetForge is too old. EPEL module only required for CentOS/RHEL
+systems.
+
 
 # Usage
 
@@ -54,6 +64,35 @@ Refer to `manifests/params.pp` for details on all the configuration options,
 their default params and more.
 
 
+In addition to the Puppet configuration, it's important that you get your DNS
+configuration correct.
+
+You need both forward and reverse DNS in order to get the SSL/TLS cert and also
+to ensure major email providers will accept your messages.
+
+    $ host mail.example.com
+    mail.example.com has address 10.0.0.1
+
+    $ host 10.0.0.1
+    1.0.0.10.in-addr.arpa domain name pointer mail.example.com.
+
+
+For each domain being served, you need to setup MX records and also a TXT 
+record for SPF:
+
+    $ host -t MX example.com
+    example.com mail is handled by 10 mail.example.com.
+    
+    $ host -t TXT example.com
+    example.com descriptive text "v=spf1 mx -all"
+
+Note that SPF used to have it's own DNS type, but that was replaced in favour
+of just using TXT.
+
+For details about what values can do into an SPF record, please refer to the 
+[OpenSPF website](http://www.openspf.org/SPF_Record_Syntax). The example above
+tells other mail servers that whatever system is mentioned in the MX record is
+a legitmate mail server for that domain.
 
 
 
@@ -100,9 +139,19 @@ This module sets up Pigeonhole/Sieve, but does not manage the per-user rules.
 
 # Limitations
 
-This modules assumes that your mail server is not also a webserver. If you are
-running a webserver on the same server, it will cause issues with the
-LetsEncrypt/CertBot renewal process.
+1. This modules assumes that your mail server is not also a webserver. If you are
+   running a webserver on the same server, it will cause issues with the
+   LetsEncrypt/CertBot renewal process.
+
+2. Whilst this module will setup a decent mail server, other factors like the
+   type of mail you send and the reputational score of your IP address will
+   have an impact on your ability to successfully deliver email to people.
+
+3. Not all systems are great for sending mail. Residential ISPs often block
+   their customers from sending email on port 25 and often lack any ability
+   to setup reverse DNS. If you get stuck and your current provider doesn't
+   meet the scratch, for personal mail servers recommend just getting
+   [a small DigitalOcean box](https://www.digitalocean.com/?refcode=832283770cf7)
 
 
 # Contributions
