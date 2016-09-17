@@ -27,7 +27,7 @@ class mail::dnscheck (
       command => 'false'
     }
 
-    notify { 'The forward DNS records for this system are incorrect which will block the mail server build steps until resolved': }
+    waring('The forward DNS records for this system are incorrect which will block the mail server build steps until resolved')
   }
 
 }

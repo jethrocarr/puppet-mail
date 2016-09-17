@@ -30,8 +30,12 @@ recommended r10k workflow):
 
     mod 'puppetlabs/stdlib'
     mod 'stahnma/epel'
-    mod 'danzilio/letsencrypt'
+    mod 'letsencrypt',
+      :git    => 'https://github.com/danzilio/puppet-letsencrypt.git',
+      :branch => 'master'
 
+Note that the letsencrypt module needs to be the upstream Github version, the
+version on PuppetForge is too old.
 
 # Usage
 
