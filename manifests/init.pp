@@ -15,7 +15,7 @@ class mail (
   $virtual_domains           = $::mail::params::virtual_domains,
   $virtual_addresses         = $::mail::params::virtual_addresses,
   $enable_antispam           = $::mail::params::enable_antispam,
-  $antispam_sa_score         = $::mail::params::antispam_sa_score
+  $antispam_sa_score         = $::mail::params::antispam_sa_score,
   $enable_graylisting        = $::mail::params::enable_graylisting,
   $max_message_size_mb       = $::mail::params::max_message_size_mb,
   $security_trusted_networks = $::mail::params::security_trusted_networks,

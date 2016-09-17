@@ -14,8 +14,8 @@ class mail::postfix (
   $security_trusted_networks = $::mail::security_trusted_networks,
   $security_cert_dir         = $::mail::security_cert_dir,
   $enable_graylisting        = $::mail::enable_graylisting,
-  $enable_antispam           = $::mail::params::enable_antispam,
-  $antispam_sa_score         = $::mail::params::antispam_sa_score
+  $enable_antispam           = $::mail::enable_antispam,
+  $antispam_sa_score         = $::mail::antispam_sa_score,
   $max_message_size_mb       = $::mail::max_message_size_mb,
   ) {
 
