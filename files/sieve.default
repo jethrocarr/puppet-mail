@@ -1,0 +1,14 @@
+# Email filtering rules
+# See http://wiki2.dovecot.org/Pigeonhole/Sieve for documentation
+#
+# Syntax can be validated by building the configuration file with:
+# $ sievec .dovecot.sieve
+
+require ["fileinto", "envelope", "mailbox"];
+
+# Get rid of spam
+if header :contains "X-Spam-Flag" "YES" {
+  fileinto :create "Spam";
+  stop;
+}
+
