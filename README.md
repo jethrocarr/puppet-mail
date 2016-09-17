@@ -48,8 +48,9 @@ You must include the following Puppet module dependencies - ideally in your
       :git    => 'https://github.com/danzilio/puppet-letsencrypt.git',
       :branch => 'master'
     
-    # This postfix module specific fork of another popular Postfix module
-    # with a bunch of fixes for various distributions and our use case.
+    # This postfix module is a fork of thias/puppet-postfix with some fixes
+    # to make it more suitable for the needs of this module. Longer-term,
+    # expect to merge it into this one and drop unnecessary functionality.
     mod 'postfix',
       :git    => 'https://github.com/jethrocarr/puppet-postfix.git',
       :branch => 'master'
