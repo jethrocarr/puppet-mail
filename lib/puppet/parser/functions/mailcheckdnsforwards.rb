@@ -21,9 +21,15 @@ module Puppet::Parser::Functions
         # associated with this server.
         addresses_lookup.each { |address|
             # Use function from stdlib
-            unless function_has_interface_with(["ipaddress", address.to_s])
-              result = false
-            end
+            if address.is_a?(Resolv::IPv4)
+                unless function_has_interface_with(["ipaddress", address.to_s])
+                    result = false
+                end
+            elsif address.is_a?(Resolv::IPv6)
+                unless function_has_interface_with(["ipaddress6", address.to_s.downcase])
+                    result = false
+                end
+            end  
         }
 
         return result
