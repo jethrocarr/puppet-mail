@@ -36,7 +36,7 @@ class mail::certs (
   letsencrypt::certonly { 'mail':
     # We don't need every domain we are hosting mail for defined in the cert,
     # just the FQDN of the server that is doing the mail serving.
-    domains                => $server_hostname,
+    domains                => [$server_hostname],
 
     # Make sure we automatically renew certs before expiration via cronjob.
     manage_cron            => true,
