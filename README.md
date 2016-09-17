@@ -122,6 +122,7 @@ the following ports:
 
 | Port | Allow From   | Used by                                       |
 |------|--------------|-----------------------------------------------|
+| 80   | Public       | LetsEncrypt validation (temporary)            |
 | 25   | Public       | Must be open to the world for receiving email |
 | 143  | Trusted Only | Dovecot for STARTTLS IMAP connections         |
 | 587  | Trusted Only | PostFix for authenticated email sending       |
@@ -133,7 +134,8 @@ these ports open to the public web, you do run the risk of attackers trying to
 brute force your passwords and gain access.
 
 Port `25` is the exception, which *must* be open for the public web in order to
-actually recieve any emails.
+actually recieve any emails. You must also leave port `80` open so that
+LetsEncrypt can perform regularly scheduled replacements of the existing cert.
 
 Recommended approaches include whitelisting IP ranges or using a VPN system
 like [puppet-roadwarrior](https://github.com/jethrocarr/puppet-roadwarrior).
