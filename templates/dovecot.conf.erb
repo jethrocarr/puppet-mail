@@ -1,0 +1,49 @@
+# Managed by Puppet `mail` module.
+#
+# Specific configuration settings to apply to Dovecot, these are applied first
+# before the other defaults and take presidence.
+
+# Help! Uncomment to turn on debugging:
+# mail_debug = yes
+
+# SSL/TLS configuration.
+ssl = required
+ssl_cert = <<%= @security_cert_dir -%>/<%= @server_hostname %>/cert.pem
+ssl_key = <<%= @security_cert_dir -%>/<%= @server_hostname %>/privkey.pem
+ssl_ca = <<%= @security_cert_dir -%>/<%= @server_hostname %>/chain.pem
+
+
+# Use mbox format and define where to place files in home directory
+mail_location = mbox:~/mail:INBOX=/var/mail/%u
+
+# Allow reading of items owned by the mail group
+mail_access_groups = mail
+
+
+# Enable Sieve plugin for mail filtering
+# See http://wiki2.dovecot.org/Pigeonhole/Sieve for details
+protocol lda {
+  mail_plugins = $mail_plugins sieve
+}
+protocol lmtp {
+  mail_plugins = $mail_plugins sieve
+}
+
+
+# Provide SASL auth for Postfix to use
+service auth {
+  unix_listener auth-userdb {
+    #mode = 0666
+    #user =
+    #group =
+  }
+
+  # Postfix smtp-auth
+  unix_listener /var/spool/postfix/private/auth {
+    mode = 0666
+  }
+
+  # Auth process is run as this user.
+  user = $default_internal_user
+}
+
