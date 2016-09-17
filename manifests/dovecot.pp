@@ -29,6 +29,12 @@ class mail::dovecot (
   # updated by the OS. By maintaining the same structural convention, the
   # config get respected by the package manager.
 
+  file {'/etc/dovecot/dovecot.conf':
+    ensure  => 'file',
+    content => template('mail/dovecot.conf.erb'),
+    require => Package[ $packages_dovecot ],
+    notify  => Service[ $service_dovecot ],
+  }
   file {'/etc/dovecot/conf.d/10-auth.conf':
     ensure  => 'file',
     content => template('mail/dovecot/10-auth.conf.erb'),

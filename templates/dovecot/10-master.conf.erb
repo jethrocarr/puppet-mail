@@ -15,9 +15,9 @@
 #default_internal_user = dovecot
 
 service imap-login {
-#  inet_listener imap {
-#    #port = 143
-#  }
+  inet_listener imap {
+    port = 0 # disable IMAP in favour of IMAPS
+  }
   inet_listener imaps {
     #port = 993
     #ssl = yes
