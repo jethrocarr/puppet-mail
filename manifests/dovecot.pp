@@ -7,9 +7,7 @@
 class mail::dovecot (
   $packages_dovecot  = $::mail::params::packages_dovecot,
   $service_dovecot   = $::mail::params::service_dovecot,
-  $security_ssl_key  = $::mail::params::security_ssl_key,
-  $security_ssl_cert = $::mail::params::security_ssl_cert,
-  $security_ssl_ca   = $::mail::params::security_ssl_ca,
+  $server_hostname   = $::mail::params::server_hostname,
   $security_cert_dir = $::mail::params::security_cert_dir,
   ) inherits ::mail::params {
 

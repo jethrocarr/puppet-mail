@@ -8,10 +8,11 @@ class mail::dnscheck (
   $server_hostname           = $::mail::params::server_hostname,
   ) inherits ::mail::params {
 
-  # Validate that the DNS for this server is properly configured. It is very
-  # important to make sure both forward and reverse DNS is functional in order
-  # to generate certs, but also because RDNS is critical for mail acceptance.
 
+  # Validate that the forward DNS for this server is properly configured as we
+  # require it to generate the LetsEncrypt certs (and probably to recieve mail
+  # as well) ;-)
+  
   if (!mailcheckdnsforwards($server_hostname)) {
 
     # This is a hack, basically we want to fail this module in the Puppet run,
@@ -27,8 +28,17 @@ class mail::dnscheck (
       command => 'false'
     }
 
-    waring('The forward DNS records for this system are incorrect which will block the mail server build steps until resolved')
+    warning('The forward DNS records for this system are incorrect which will block the mail server build steps until resolved')
   }
+
+  # Validate that the server has correctly configured reverse DNS. Without
+  # valid RDNS, major providers (Google, Yahoo, etc) will not accept email from
+  # this server.
+  #
+  # TODO: Add reverse DNS check here using custom Puppet function.
+
+  # Validate that each virtual domain has valid SPF data. Since we
+  # TODO: Add SPF check for each of the domains.
 
 }
 
