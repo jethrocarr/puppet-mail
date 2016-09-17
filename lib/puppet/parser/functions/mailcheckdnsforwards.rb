@@ -9,7 +9,7 @@ module Puppet::Parser::Functions
 
         # DNS lookup
         addresses_lookup = []
-        addresses_lookup = Resolv.new.getaddresses(args[0][0])
+        addresses_lookup = Resolv::DNS.new.getaddresses(args[0])
 
         # We set to true if we get at least one value returned but retract if
         # any of the IPs are not correct.
@@ -21,7 +21,7 @@ module Puppet::Parser::Functions
         # associated with this server.
         addresses_lookup.each { |address|
             # Use function from stdlib
-            unless function_has_interface_with("ipaddress", address)
+            unless function_has_interface_with(["ipaddress", address.to_s])
               result = false
             end
         }
