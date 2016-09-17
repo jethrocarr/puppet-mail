@@ -8,12 +8,14 @@ class mail::postfix (
   $packages_postfix          = $::mail::packages_postfix,
   $server_hostname           = $::mail::server_hostname,
   $server_domain             = $::mail::server_domain,
+  $server_label              = $::mail::server_label,
   $virtual_domains           = $::mail::virtual_domains,
   $virtual_addresses         = $::mail::virtual_addresses,
   $security_trusted_networks = $::mail::security_trusted_networks,
   $security_cert_dir         = $::mail::security_cert_dir,
   $enable_graylisting        = $::mail::enable_graylisting,
-  $enable_antispam           = $::mail::antispam_sa_score,
+  $enable_antispam           = $::mail::params::enable_antispam,
+  $antispam_sa_score         = $::mail::params::antispam_sa_score
   $max_message_size_mb       = $::mail::max_message_size_mb,
   ) {
 
