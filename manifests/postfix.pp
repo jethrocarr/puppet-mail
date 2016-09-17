@@ -5,17 +5,17 @@
 # file for specifics on the various options.
 
 class mail::postfix (
-  $packages_postfix          = $::mail::params::packages_postfix,
-  $server_hostname           = $::mail::params::server_hostname,
-  $server_domain             = $::mail::params::server_domain,
-  $virtual_domains           = $::mail::params::virtual_domains,
-  $virtual_addresses         = $::mail::params::virtual_addresses,
-  $security_trusted_networks = $::mail::params::security_trusted_networks,
-  $security_cert_dir         = $::mail::params::security_cert_dir,
-  $enable_graylisting        = $::mail::params::enable_graylisting,
-  $enable_antispam           = $::mail::params::antispam_sa_score,
-  $max_message_size_mb       = $::mail::params::max_message_size_mb,
-  ) inherits ::mail::params {
+  $packages_postfix          = $::mail::packages_postfix,
+  $server_hostname           = $::mail::server_hostname,
+  $server_domain             = $::mail::server_domain,
+  $virtual_domains           = $::mail::virtual_domains,
+  $virtual_addresses         = $::mail::virtual_addresses,
+  $security_trusted_networks = $::mail::security_trusted_networks,
+  $security_cert_dir         = $::mail::security_cert_dir,
+  $enable_graylisting        = $::mail::enable_graylisting,
+  $enable_antispam           = $::mail::antispam_sa_score,
+  $max_message_size_mb       = $::mail::max_message_size_mb,
+  ) {
 
   # Install additional dependencies
   ensure_packages([$packages_postfix])

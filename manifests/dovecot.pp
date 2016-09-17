@@ -5,11 +5,11 @@
 # file for specifics on the various options.
 
 class mail::dovecot (
-  $packages_dovecot  = $::mail::params::packages_dovecot,
-  $service_dovecot   = $::mail::params::service_dovecot,
-  $server_hostname   = $::mail::params::server_hostname,
-  $security_cert_dir = $::mail::params::security_cert_dir,
-  ) inherits ::mail::params {
+  $packages_dovecot  = $::mail::packages_dovecot,
+  $service_dovecot   = $::mail::service_dovecot,
+  $server_hostname   = $::mail::server_hostname,
+  $security_cert_dir = $::mail::ecurity_cert_dir,
+  ) {
 
   ensure_packages([$packages_dovecot])
 

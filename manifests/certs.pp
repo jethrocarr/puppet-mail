@@ -6,11 +6,11 @@
 # file for specifics on the various options.
 
 class mail::certs (
-  $security_certbot_plugin   = $::mail::params::security_certbot_plugin,
-  $security_certbot_email    = $::mail::params::security_certbot_email,
-  $server_hostname           = $::mail::params::server_hostname,
-  $service_dovecot           = $::mail::params::service_dovecot,
-  ) inherits ::mail::params {
+  $security_certbot_plugin   = $::mail::security_certbot_plugin,
+  $security_certbot_email    = $::mail::security_certbot_email,
+  $server_hostname           = $::mail::server_hostname,
+  $service_dovecot           = $::mail::service_dovecot,
+  ) {
 
 
 

@@ -5,8 +5,8 @@
 # file for specifics on the various options.
 
 class mail::dnscheck (
-  $server_hostname           = $::mail::params::server_hostname,
-  ) inherits ::mail::params {
+  $server_hostname = $::mail::server_hostname,
+  ) {
 
 
   # Validate that the forward DNS for this server is properly configured as we
