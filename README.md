@@ -162,6 +162,47 @@ This module sets up Pigeonhole/Sieve, but does not manage the per-user rules.
    meet the scratch, for personal mail servers recommend just getting
    [a small DigitalOcean box](https://www.digitalocean.com/?refcode=832283770cf7)
 
+4. There is currently a known bug where Postfix needs to be restarted manually
+   after the very first inital Puppet run. You can do this by executing
+   `server postfix restart`. Failure to do so results in Postfix not listening
+   on anything other than loopback interface.
+
+5. Some mail clients struggle to configure initially since they try to do
+   things like authenticate against port 25 (which we deny) or use insecure 
+   protocols like IMAP. Usually configuring them in advanced mode will work OK.
+
+
+# Troubleshooting
+
+## Unknown user bounce
+
+Q. When attempting to send emails to my user accounts, I get this error:
+
+     status=bounced (user unknown)
+
+A. You have not configured any `virtual_addresses`. Every email address that
+you wish to recieve mail on, must be defined in that hash - even if the email
+is the same as user@servername.
+
+
+## 450 cannot find your hostname
+
+Q. I'm unable to send email and all I see i my logs is:
+
+    450 4.7.1 Client host rejected: cannot find your hostnam
+
+A. This indicates that your reverse DNS is not configured correctly.
+
+
+## My email client keeps giving me invalid auth on send
+
+Q. When I try to send emails from a mail client using this server, I get
+authentication errors, yet I know my creds are correct.
+
+A. Make sure your email client is trying to use the submission port (587)
+rather than port 25.
+
+
 
 # Contributions
 
