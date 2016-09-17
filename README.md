@@ -41,10 +41,16 @@ You must include the following Puppet module dependencies - ideally in your
     mod 'letsencrypt',
       :git    => 'https://github.com/danzilio/puppet-letsencrypt.git',
       :branch => 'master'
+    mod 'postfix',
+      :git    => 'https://github.com/jethrocarr/puppet-postfix.git',
+      :branch => 'master'
 
 Note that the letsencrypt module needs to be the upstream Github version, the
 version on PuppetForge is too old. EPEL module only required for CentOS/RHEL
 systems.
+
+The postfix module above is a specific fork of another popular Postfix module
+with a bunch of fixes for various distributions and our use case.
 
 
 # Usage

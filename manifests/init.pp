@@ -10,7 +10,10 @@ class mail () {
   } ->
   class { '::mail::certs':
   } ->
-  class { '::mail::dovecot': }
+  class { '::mail::dovecot':
+  } ->
+  class { '::mail::postfix': }
+
 
 }
 

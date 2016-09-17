@@ -3,12 +3,17 @@
 
 class mail::params {
 
-  # Packages providing Dovecot & the required dependencies we have. You should
+  # Packages providing the apps & the required dependencies we have. You should
   # not need to adjust this unless adding support for a new distribution. PRs
   # always welcome for more distribution/platform support.
   $packages_dovecot = $::osfamily ? {
     'RedHat' => ['dovecot', 'dovecot-pigeonhole'],
     default  => ['dovecot', 'dovecot-pigeonhole']
+  }
+
+  $packages_postfix = $::osfamily ? {
+    'RedHat' => ['perl-Mail-SPF'],
+    default  => ['perl-Mail-SPF']
   }
 
   # Service names. Just like with packages above, these can vary by operating
@@ -18,14 +23,30 @@ class mail::params {
     default  => 'dovecot',
   }
 
+  $service_postfix = $::osfamily ? {
+    'RedHat' => 'postfix',
+    default  => 'postfix',
+  }
 
   # Define the mail server name and attributes
   $server_hostname = $::fqdn
   $server_domain   = $::domain
   $server_label    = "A ${::operatingsystem} powered mail server"
 
-  # Define the domains to send/recieve mail for.
-  $domains = []
+  # Define an array of domains to send/receive mail for. You'll want to define
+  # at least one (the domain the server is on!).
+  $virtual_domains = []
+
+  # Define a hash of virtual email aliases. The key must be the fully qualified
+  # email address, and the value must be a local shell user.
+  #
+  # For example:
+  # $virtual_addresses = {
+  #   "user@example.com"     => "user",
+  #   "nickname@example.com" => "user",
+  # }
+  #
+  $virtual_addresses = {}
 
 
   # Enable spam filtering using SpamAssassin. If disabled, none of the other
@@ -56,7 +77,8 @@ class mail::params {
   # few mins later.
   #
   # If you find that emails arrive with a delay and it frustrates you, you may
-  # wish to disable this.
+  # wish to disable this. It is also often desirable to disable when doing
+  # initial setup and testing of the server.
   $enable_graylisting = true
 
 
