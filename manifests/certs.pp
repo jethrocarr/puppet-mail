@@ -42,7 +42,7 @@ class mail::certs (
     manage_cron            => true,
     
     # We have to restart any services using the certs when this occurs.
-    #cron_success_command   => "service ${service_dovecot} restart",
+    cron_success_command   => "service ${service_dovecot} restart",
   }
 
 

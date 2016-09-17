@@ -10,6 +10,7 @@ class mail::dovecot (
   $security_ssl_key  = $::mail::params::security_ssl_key,
   $security_ssl_cert = $::mail::params::security_ssl_cert,
   $security_ssl_ca   = $::mail::params::security_ssl_ca,
+  $security_cert_dir = $::mail::params::security_cert_dir,
   ) inherits ::mail::params {
 
   ensure_packages([$packages_dovecot])
@@ -19,11 +20,12 @@ class mail::dovecot (
     enable => true,
   }
 
-  # TODO: Need to re-work this configuration.
 
+  # Deploy our configuration into the OS-provided configuration structure.
+  # TODO: This will be RHEL-specific.
   file { '/etc/dovecot/conf.d/01-puppet.conf':
     ensure  => present,
-    source  => 'puppet:///modules/s_mail/dovecot.conf',
+    content => template('mail/dovecot.conf.erb'),
     owner   => 'root',
     group   => 'root',
     mode    => '0644',
@@ -31,11 +33,17 @@ class mail::dovecot (
     notify  => Service[ $service_dovecot ],
   }
 
-  # The one default file that does clobber our one needs to go
-  file {'/etc/dovecot/conf.d/10-ssl.conf':
-    ensure  => absent,
-    notify  => Service[ $service_dovecot ],
-   }
+
+  # On RedHat, we need to remove the default SSL configuration that conflicts
+  # with the SSL configuration we've loaded in via our module.
+  if ($::osfamily == 'RedHat') {
+
+    file {'/etc/dovecot/conf.d/10-ssl.conf':
+      ensure  => 'file',
+      content => '# Disabled by Puppet',
+      notify  => Service[ $service_dovecot ],
+     }
+  }
 
 
   # Install a default Sieve configuration for all new user accounts.

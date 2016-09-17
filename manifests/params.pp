@@ -77,10 +77,9 @@ class mail::params {
   $security_certbot_email  = undef
   $security_certbot_plugin = 'standalone'
 
-  # This module requires that SSL/TLS is configured.
-  $security_ssl_key  = undef
-  $security_ssl_cert = undef
-  $security_ssl_ca   = undef
+  # Define where the cert files are being stored.
+  $security_cert_dir    = '/etc/letsencrypt/live/'
+
 
 }
 
