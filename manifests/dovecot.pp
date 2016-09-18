@@ -135,7 +135,7 @@ class mail::dovecot (
   file { '/etc/skel/.dovecot.sieve':
     ensure  => present,
     source  => 'puppet:///modules/mail/sieve.default',
-    mode    => 0600,
+    mode    => '0600',
     owner   => 'root',
     group   => 'root',
   }
