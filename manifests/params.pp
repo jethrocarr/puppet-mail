@@ -14,6 +14,7 @@ class mail::params {
 
   $packages_postfix = $::osfamily ? {
     'RedHat' => ['perl-Mail-SPF'],
+    'Debian' => ['libmail-spf-perl'],
     default  => ['perl-Mail-SPF']
   }
 
