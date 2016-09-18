@@ -8,7 +8,7 @@ class mail::params {
   # always welcome for more distribution/platform support.
   $packages_dovecot = $::osfamily ? {
     'RedHat' => ['dovecot', 'dovecot-pigeonhole'],
-    'Ubuntu' => ['dovecot-core', 'dovecot-imapd', 'dovecot-sieve', 'dovecot-lmtpd'],
+    'Debian' => ['dovecot-core', 'dovecot-imapd', 'dovecot-sieve', 'dovecot-lmtpd'],
     default  => ['dovecot', 'dovecot-pigeonhole']
   }
 
