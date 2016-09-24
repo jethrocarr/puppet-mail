@@ -28,10 +28,12 @@ Keep on reading!
 
 # Requirements
 
-Currently only the following distributions are supported - PRs adding support
-for other distributions are always welcome.
+Currently only the following distributions are supported, although others may
+also work as-is. Any PRs adding support for other distributions or platforms
+are always welcome.
 
 * CentOS (7)
+* Ubuntu (16.04)
 
 You must include the following Puppet module dependencies - ideally in your
 `Puppetfile` if using an r10k workflow.
