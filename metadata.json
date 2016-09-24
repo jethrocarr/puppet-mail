@@ -8,7 +8,11 @@
   "project_page": "https://github.com/jethrocarr/puppet-mail",
   "issues_url": "https://github.com/jethrocarr/puppet-mail/issues",
   "dependencies": [
-    {"name":"puppetlabs-stdlib","version_requirement":">= 1.0.0"}
+    {"name":"puppetlabs-stdlib","version_requirement":">= 1.0.0"},
+    {"name":"stahnma/epel"},
+    {"name":"jethrocarr/repo_jethro"},
+    {"name":"danzilio/letsencrypt"},
+    {"name":"jethrocarr/postfix"}
   ],
   "data_provider": null
 }
