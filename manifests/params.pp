@@ -30,6 +30,13 @@ class mail::params {
     default  => 'postfix',
   }
 
+  # Paths that vary by platform
+  $path_dovecot_lda = $::osfamily ? {
+    'RedHat' => '/usr/libexec/dovecot/dovecot-lda',
+    'Debian' => '/usr/lib/dovecot/dovecot-lda',
+    default  => '/usr/lib/dovecot/dovecot-lda',
+  }
+
 
   # Define the mail server name and attributes
   $server_hostname = $::fqdn

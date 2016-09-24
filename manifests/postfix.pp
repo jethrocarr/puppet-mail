@@ -17,6 +17,7 @@ class mail::postfix (
   $enable_antispam           = $::mail::enable_antispam,
   $antispam_sa_score         = $::mail::antispam_sa_score,
   $max_message_size_mb       = $::mail::max_message_size_mb,
+  $path_dovecot_lda          = $::mail::path_dovecot_lda,
   ) {
 
   # Install additional dependencies
@@ -51,8 +52,7 @@ class mail::postfix (
 
     # Dovecot Integration
     # Note: need both mailbox_command and virtual_transport to cater for both virtual and real users alike.
-    # TODO: This is probably RHEL specific.
-    mailbox_command    => '/usr/libexec/dovecot/dovecot-lda -f "$SENDER" -a "$RECIPIENT"', 
+    mailbox_command    => "${path_dovecot_lda} -f \"\$SENDER\" -a \"\$RECIPIENT\"", 
     virtual_transport  => 'dovecot',
 
     # Rules around recieving email (this is not for clients as in our
