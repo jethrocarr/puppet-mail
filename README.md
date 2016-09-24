@@ -64,7 +64,7 @@ You must include the following Puppet module dependencies - ideally in your
 To provision the mailserver, simply add the following to your own modules or
 `site.pp` file:
 
-    class { 'mail': }
+    class { '::mail': }
 
 Naturally you'll want to do some configuration of the mailserver. This is best
 done in Puppet Hiera. The following is an example of the minimum options you'd
