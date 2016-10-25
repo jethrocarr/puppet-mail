@@ -11,6 +11,7 @@ class mail::certs (
   $security_certbot_webroot  = $::mail::security_certbot_webroot,
   $server_hostname           = $::mail::server_hostname,
   $service_dovecot           = $::mail::service_dovecot,
+  $service_postfix           = $::mail::service_postfix,
   ) {
 
 
@@ -47,7 +48,7 @@ class mail::certs (
     manage_cron            => true,
     
     # We have to restart any services using the certs when this occurs.
-    cron_success_command   => "service ${service_dovecot} restart",
+    cron_success_command   => "/sbin/service ${service_dovecot} restart; /sbin/service ${service_postfix} restart",
   }
 
 
