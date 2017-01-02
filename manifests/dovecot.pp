@@ -140,9 +140,17 @@ class mail::dovecot (
     group   => 'root',
   }
 
+  # Make sure that dovecot have access to mails
+  user { 'dovecot':
+    groups  => 'mail',
+    require => Package[ $packages_dovecot ],
+  }
 
-
-
+  # Make sure the /var/mail folder is well configured
+  file { '/var/mail/':
+    ensure  => directory,
+    mode    => '1777',
+  }
 }
 
 # vi:smartindent:tabstop=2:shiftwidth=2:expandtab:
