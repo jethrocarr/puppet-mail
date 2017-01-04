@@ -58,6 +58,14 @@ class mail::params {
   #
   $virtual_addresses = {}
 
+  # The recipient_delimiter parameter specifies the separator between
+  # user names and address extensions (user+foo). See canonical(5),
+  # local(8), relocated(5) and virtual(5) for the effects this has on
+  # aliases, canonical, virtual, relocated and .forward file lookups.
+  # Basically, the software tries user+foo and .forward+foo before
+  # trying user and .forward.
+  $recipient_delimiter = undef
+
 
   # Enable spam filtering using SpamAssassin. If disabled, none of the other
   # subsequent antispam_* settings have any effect.

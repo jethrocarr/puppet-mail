@@ -18,6 +18,7 @@ class mail::postfix (
   $antispam_sa_score         = $::mail::antispam_sa_score,
   $max_message_size_mb       = $::mail::max_message_size_mb,
   $path_dovecot_lda          = $::mail::path_dovecot_lda,
+  $recipient_delimiter       = $::mail::recipient_delimiter,
   ) {
 
   # Install additional dependencies
@@ -49,6 +50,9 @@ class mail::postfix (
     # Virtual domains & mappings
     virtual_alias_maps      => ['hash:/etc/postfix/virtual'],
     virtual_mailbox_domains => $virtual_domains_tweaked,
+
+    # Recipient delimitier
+    recipient_delimiter => $recipient_delimiter,
 
     # Dovecot Integration
     # Note: need both mailbox_command and virtual_transport to cater for both virtual and real users alike.
