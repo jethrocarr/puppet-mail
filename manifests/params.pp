@@ -121,6 +121,13 @@ class mail::params {
   $security_certbot_plugin  = 'standalone'
   $security_certbot_webroot = undef
 
+  # Set custom command to run before and after generating certificates
+  # This can be used to stop and start nginx for example if you want to keep the
+  # standalone mechanism above
+  # if undef, dovecot and postfix will be restarted after
+  $security_certbot_before = undef
+  $security_certbot_after  = undef
+
   # Define where the cert files are being stored.
   $security_cert_dir    = '/etc/letsencrypt/live/'
 

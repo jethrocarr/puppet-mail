@@ -9,12 +9,20 @@ class mail::certs (
   $security_certbot_plugin   = $::mail::security_certbot_plugin,
   $security_certbot_email    = $::mail::security_certbot_email,
   $security_certbot_webroot  = $::mail::security_certbot_webroot,
+  $security_certbot_before   = $::mail::security_certbot_before,
+  $security_certbot_after    = $::mail::security_certbot_after,
   $server_hostname           = $::mail::server_hostname,
   $service_dovecot           = $::mail::service_dovecot,
   $service_postfix           = $::mail::service_postfix,
   ) {
 
 
+  # Build the security_certbot_after
+  if ($security_certbot_after) {
+    $security_certbot_after_real = $security_certbot_after
+  } else {
+    $security_certbot_after_real = "/sbin/service ${service_dovecot} restart > /dev/null 2>&1; /sbin/service ${service_postfix} restart > /dev/null 2>&1"
+  }
 
   # Perform a safe vs unsafe registration depending on whether a valid email
   # address has been supplied. An unsafe registration means no email notices
@@ -48,7 +56,8 @@ class mail::certs (
     manage_cron            => true,
     
     # We have to restart any services using the certs when this occurs.
-    cron_success_command   => "/sbin/service ${service_dovecot} restart > /dev/null 2>&1; /sbin/service ${service_postfix} restart > /dev/null 2>&1",
+    cron_success_command   => $security_certbot_after_real,
+    cron_before_command    => $security_certbot_before,
   }
 
 
