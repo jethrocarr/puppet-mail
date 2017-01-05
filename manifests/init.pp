@@ -14,6 +14,7 @@ class mail (
   $server_label              = $::mail::params::server_label,
   $virtual_domains           = $::mail::params::virtual_domains,
   $virtual_addresses         = $::mail::params::virtual_addresses,
+  $recipient_delimiter       = $::mail::params::recipient_delimiter,
   $enable_antispam           = $::mail::params::enable_antispam,
   $antispam_sa_score         = $::mail::params::antispam_sa_score,
   $enable_graylisting        = $::mail::params::enable_graylisting,
