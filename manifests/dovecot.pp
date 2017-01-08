@@ -5,10 +5,13 @@
 # file for specifics on the various options.
 
 class mail::dovecot (
-  $packages_dovecot  = $::mail::packages_dovecot,
-  $service_dovecot   = $::mail::service_dovecot,
-  $server_hostname   = $::mail::server_hostname,
-  $security_cert_dir = $::mail::security_cert_dir,
+  $packages_dovecot     = $::mail::packages_dovecot,
+  $service_dovecot      = $::mail::service_dovecot,
+  $server_hostname      = $::mail::server_hostname,
+  $security_cert_dir    = $::mail::security_cert_dir,
+  $enable_managesieve   = $::mail::enable_managesieve,
+  $managesieve_port     = $::mail::managesieve_port,
+  $managesieve_address  = $::mail::managesieve_address,
   ) {
 
   ensure_packages([$packages_dovecot])
