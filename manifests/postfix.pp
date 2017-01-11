@@ -126,6 +126,14 @@ class mail::postfix (
                            ],
     sa_score            => $antispam_sa_score,
 
+    # Extra parameters, mostly use for DKIM
+    extra_main_parameters        => {
+        smtpd_milters         => 'inet:127.0.0.1:8891',
+        non_smtpd_milters     => '$smtpd_milters',
+        milter_default_action => 'accept',
+        milter_protocol       => '2',
+    },
+
   }
 
   # Setup the virtual alias addresses
@@ -142,6 +150,10 @@ class mail::postfix (
     command     => 'postmap /etc/postfix/virtual',
     path        => '/usr/bin:/usr/sbin:/bin:/sbin',
   }
+
+  # DKIM
+  include opendkim
+  opendkim::domain{[$server_domain]:}
  
 }
 
