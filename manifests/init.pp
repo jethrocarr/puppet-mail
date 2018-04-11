@@ -26,6 +26,7 @@ class mail (
   $security_certbot_before   = $::mail::params::security_certbot_before,
   $security_certbot_after    = $::mail::params::security_certbot_after,
   $security_cert_dir         = $::mail::params::security_cert_dir,
+  $helo_whitelist            = $::mail::params::helo_whitelist,
 ) inherits ::mail::params {
 
   # Because of packages missing on CentOS, we need the EPEL repo (for

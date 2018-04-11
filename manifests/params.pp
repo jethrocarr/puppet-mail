@@ -139,6 +139,11 @@ class mail::params {
   # Define where the cert files are being stored.
   $security_cert_dir    = '/etc/letsencrypt/live/'
 
+  # Define a hash of domains or IP addresses to accept email from even
+  # if their HELO is wrong. Used to deal with various idiots who can't
+  # run a mailserver properly, fuck you ANZ.
+  $helo_whitelist = []
+
 }
 
 # vi:smartindent:tabstop=2:shiftwidth=2:expandtab:

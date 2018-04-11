@@ -19,6 +19,7 @@ class mail::postfix (
   $max_message_size_mb       = $::mail::max_message_size_mb,
   $path_dovecot_lda          = $::mail::path_dovecot_lda,
   $recipient_delimiter       = $::mail::recipient_delimiter,
+  $helo_whitelist            = $::mail::helo_whitelist,
   ) {
 
   # Install additional dependencies
@@ -75,6 +76,7 @@ class mail::postfix (
     smtpd_helo_restrictions => [
       'permit_mynetworks',
       'permit_sasl_authenticated',
+      'check_helo_access hash:/etc/postfix/helo_whitelist',
       'reject_invalid_helo_hostname',
       'reject_non_fqdn_helo_hostname',
       'reject_unknown_helo_hostname',
@@ -128,6 +130,7 @@ class mail::postfix (
 
   }
 
+
   # Setup the virtual alias addresses
   # TODO: Maybe RHEL specific?
   file { '/etc/postfix/virtual':
@@ -143,6 +146,22 @@ class mail::postfix (
     path        => '/usr/bin:/usr/sbin:/bin:/sbin',
   }
  
+
+  # Setup the helo whitelist
+  # TODO: Maybe RHEL specific?
+  file { '/etc/postfix/helo_whitelist':
+    ensure  => present,
+    content => template('mail/postfix_helo_whitelist.erb'),
+    notify  => Exec['postmap helo whitelist'],
+    require => Class['::postfix::server'],
+  }
+
+  exec { 'postmap helo whitelist':
+    refreshonly => true,
+    command     => 'postmap /etc/postfix/helo_whitelist',
+    path        => '/usr/bin:/usr/sbin:/bin:/sbin',
+  }
+
 }
 
 # vi:smartindent:tabstop=2:shiftwidth=2:expandtab:
