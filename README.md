@@ -24,6 +24,7 @@ Keep on reading!
 * Provides Sieve for server-side email filtering rules.
 * Simple authentication against PAM for easy management of users.
 * Supports virtual email aliases and multiple domains
+* Supports DKIM and SPF
 
 
 # Requirements
@@ -57,6 +58,8 @@ You must include the following Puppet module dependencies - ideally in your
       :git    => 'https://github.com/jethrocarr/puppet-postfix.git',
       :branch => 'master'
 
+    # Module for DKIM
+    mod 'bi4o4ek-opendkim', '0.0.7'
 
 
 # Usage
@@ -113,6 +116,13 @@ For details about what values can do into an SPF record, please refer to the
 tells other mail servers that whatever system is mentioned in the MX record is
 a legitmate mail server for that domain.
 
+
+You also need to set a TXT record for DKIM. You can retrieve the line to set
+in your DNS from the opendkim folder:
+
+    $ cat /etc/opendkim/keys/example.com/mail.txt
+    mail._domainkey IN      TXT     ( "v=DKIM1; k=rsa; "
+          "p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCd/rcjupezhV+CO/i1XYwu2EcpgMnC+G7GEVSUDCr3dAUSYrg86JUk+9uvvYsIThi1j9CMMz+sAcsNWMSIBgBhAkDpu+oGWgT0Rki58wpZ+r6sK6tCgH6phXnV9np1n4ySzHjiteagjwcS3RXta20w6dgzoJCS3mjwskDSnOe0PwIDAQAB" )  ; ----- DKIM key mail for example.com
 
 
 # Security
