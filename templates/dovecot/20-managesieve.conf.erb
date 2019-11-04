@@ -1,16 +1,19 @@
+## Managed by Puppet `mail` module.
 ##
 ## ManageSieve specific settings
 ##
 
+<% if @enable_managesieve %>
 # Uncomment to enable managesieve protocol:
-#protocols = $protocols sieve
+protocols = $protocols sieve
 
 # Service definitions
 
-#service managesieve-login {
-  #inet_listener sieve {
-  #  port = 4190
-  #}
+service managesieve-login {
+  inet_listener sieve {
+    port = <%= @managesieve_port %>
+    <% if @managesieve_address %>address = <%= @managesieve_address %><% end %>
+  }
 
   #inet_listener sieve_deprecated {
   #  port = 2000
@@ -26,13 +29,13 @@
 
   # If you set service_count=0, you probably need to grow this.
   #vsz_limit = 64M
-#}
+}
 
-#service managesieve {
+service managesieve {
   # Max. number of ManageSieve processes (connections)
   #process_limit = 1024
-#}
-
+}
+<% end %>
 # Service configuration
 
 protocol sieve {

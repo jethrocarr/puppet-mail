@@ -8,7 +8,7 @@ class mail::params {
   # always welcome for more distribution/platform support.
   $packages_dovecot = $::osfamily ? {
     'RedHat' => ['dovecot', 'dovecot-pigeonhole'],
-    'Debian' => ['dovecot-core', 'dovecot-imapd', 'dovecot-sieve', 'dovecot-lmtpd'],
+    'Debian' => ['dovecot-core', 'dovecot-imapd', 'dovecot-sieve', 'dovecot-lmtpd', 'dovecot-managesieved'],
     default  => ['dovecot', 'dovecot-pigeonhole']
   }
 
@@ -106,6 +106,21 @@ class mail::params {
   $max_message_size_mb = '50' 
 
 
+  # Wether you want to enable the managesieve plugin in dovecot or not.
+  # If true, dovecot will listen on 127.0.0.1:4190 in order to manage the
+  # sieve filters (if you keep the default port and address for managesieve).
+  # It allows the user to control the sieve scripts without having to connect
+  # with SSH/SFTP but rather use the ManageSieve protocol.
+  # (see: https://wiki2.dovecot.org/Pigeonhole/ManageSieve)
+  # Default is false.
+  $enable_managesieve = false
+
+  # Listen port for managesieve
+  $managesieve_port = 4190
+
+  # Listen address for managesieve
+  # If undef, dovecot will listen on *
+  $managesieve_address = '127.0.0.1'
 
   # Define trusted network ranges. Any networks in this array are permitted to
   # relay any amount of email through this server without authentication, so
